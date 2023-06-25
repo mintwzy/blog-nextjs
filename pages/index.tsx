@@ -5,7 +5,7 @@ import { getPostsMetaData } from '@/lib/getPostsData';
 export default function Home({ postsData }) {
   return (
     <div className = 'info-container'>
-      <p className = 'info-description'>Hi Im Batman, the saviour of Gotham City and I like to roam in nights to bash the bad guys.</p>
+      <p className = 'info-description'>Hi atman, the saviour of Gotham City and I like to roam in nights to bash the bad guys.</p>
       <p className = 'info-description'>But please dont call me as a source for <b>Corona Virus</b> and it could be the <b>Joker</b> who
         might have started this mess.</p>
       <hr/>
