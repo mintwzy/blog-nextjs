@@ -1,0 +1,11 @@
+---
+title: "Justice League"
+description: "Grand union with fellow superheroes which costs $300 million but received face slap from the audience."
+date: "Nov 17, 2017"
+---
+
+# Justice League
+
+Superheroes from the DC universe consisting of Superman, Wonder Woman, The Flash, Aquaman, and Cyborg and I met in 2017 to spoil the party plans of Steppenwolf who tried to steal Mother Boxes on Earth.
+
+It's a very long story of how we met each other and all thanks to Avengers who had inspired me to search for other superheroes.
