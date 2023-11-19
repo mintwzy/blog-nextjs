@@ -1,5 +1,3 @@
-const ghPages = process.env.DEPLOY_TARGET === 'gh-pages';
-
 const withMDX = require('@next/mdx')({
     extension: /\.mdx?$/,
 })
@@ -8,8 +6,6 @@ const withMDX = require('@next/mdx')({
 const nextConfig = withMDX({
     pageExtensions: ['ts', 'tsx', 'mdx'],
     output: "export",
-    basePath: ghPages? '/blog-nextjs/' : '',
-    assetPrefix: ghPages ? '/blog-nextjs/' : '',
 })
 
 
