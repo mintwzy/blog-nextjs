@@ -12,7 +12,7 @@ export default function Home({ postsData }) {
       {postsData.map((metadata: any) => {
         return (
           <div key = {metadata.id}>
-            <Link href={`/blog-nextjs/${metadata.id}`} key = {metadata.title} >
+            <Link href={`${metadata.id}`} key = {metadata.title} >
               {metadata.title}
             </Link>
             <p className = 'post-description'>{metadata.description}</p>
