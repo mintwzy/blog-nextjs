@@ -2,20 +2,27 @@ import Link from "next/link";
 import { getPostsMetaData } from '@/lib/getPostsData';
 
 // @ts-ignore
-export default function Home({ postsData }) {
+function Home({ postsData }) {
   return (
     <div className = 'info-container'>
-      <p className = 'info-description'>Hi atman, the saviour of Gotham City and I like to roam in nights to bash the bad guys.</p>
-      <p className = 'info-description'>But please dont call me as a source for <b>Corona Virus</b> and it could be the <b>Joker</b> who
-        might have started this mess.</p>
+      <p className = 'info-description'>
+        Hi atman, the saviour of Gotham City and I like to roam in nights to bash the bad guys.
+      </p>
+      <p className = 'info-description'>
+        But please dont call me as a source for <b>Corona Virus</b> and it could be the <b>Joker</b> who might have
+        started this mess.
+      </p>
       <hr/>
+      {/*
+        Render with posts metadata here
+      */}
       {postsData.map((metadata: any) => {
         return (
           <div key = {metadata.id}>
-            <Link href={`${metadata.id}`} key = {metadata.title} >
+            <Link href={`${metadata.id}`} key={metadata.title} >
               {metadata.title}
             </Link>
-            <p className = 'post-description'>{metadata.description}</p>
+            <p className='post-description'>{metadata.description}</p>
           </div>
         )
       })}
@@ -50,11 +57,17 @@ export default function Home({ postsData }) {
   )
 }
 
-export async function getStaticProps() {
+async function getStaticProps() {
   const postsData = getPostsMetaData();
   return {
     props: {
       postsData: postsData,
     }
   }
+}
+
+export default Home
+
+export {
+  getStaticProps
 }
