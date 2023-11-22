@@ -9,20 +9,26 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
+          # The auth token is persisted in the local git config. This enables your scripts to run authenticated git
+          # commands. The token is removed during post-job cleanup. Set persist-credentials: false to opt-out.
           persist-credentials: false
       - name: Cache
         uses: actions/cache@v3
         with:
+          #  A list of files, directories, and wildcard patterns to cache and restore.
           path: ${{ github.workspace }}/.next/cache
+          # An explicit key for a cache entry.
           key: ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}
       - name: Install and Build
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
       - run: yarn install
       - run: yarn run build
+      # It is now possible to completely bypass Jekyll processing on GitHub Pages by creating a file named .nojekyll
+      # in the root of your pages repo and pushing it to GitHub.
       - run: touch out/.nojekyll
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
