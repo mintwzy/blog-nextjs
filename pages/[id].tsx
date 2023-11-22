@@ -18,7 +18,6 @@ const components = {
 
 // @ts-ignore
 function Blog({ postMetadata, postContent }) {
-
   return (
     <div>
       <div className = 'blog-content'>
@@ -48,7 +47,7 @@ async function getStaticPaths() {
 }
 
 // @ts-ignore
-async function getStaticProps({ params }) {
+export async function getStaticProps({params}) {
   const postData = getPostData(params.id);
   const mdxSource = await serialize(postData.content);
   return {
@@ -62,6 +61,5 @@ async function getStaticProps({ params }) {
 
 export default Blog;
 export {
-  getStaticProps,
   getStaticPaths
 }

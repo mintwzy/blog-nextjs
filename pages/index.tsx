@@ -22,7 +22,7 @@ function Home({ postsData }) {
             <Link href={`${metadata.id}`} key={metadata.title} >
               {metadata.title}
             </Link>
-            <p className='post-description'>{metadata.description}</p>
+            <p className='post-description'>{metadata.date || metadata.tags}</p>
           </div>
         )
       })}
