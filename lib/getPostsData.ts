@@ -1,10 +1,12 @@
 import fs from 'fs'
-import path, {ParsedPath} from 'path'
+import {glob, globSync} from "glob";
+import path, {ParsedPath, parse} from 'path'
 import matter from 'gray-matter'
+import metadata from "next/dist/server/typescript/rules/metadata";
 
 // current 'posts' directory
 const postsDirectory = path.join(process.cwd(), 'posts');
-const mdx_file_extension = '.mdx';
+const MDX_FILE_EXTENSION = '.mdx';
 
 /**
  * Get all files under posts directory
@@ -23,39 +25,55 @@ function getAllFilesInDirectory(): ParsedPath[]{
 function getMdxFiles(): ParsedPath[]{
   const allFiles: ParsedPath[] = getAllFilesInDirectory();
 
-  return allFiles.filter(parsedFile => parsedFile.ext === mdx_file_extension);
+  return allFiles.filter(parsedFile => parsedFile.ext === MDX_FILE_EXTENSION);
+}
+
+function getMdxFilesRecursively(): ParsedPath[] {
+  const pattern = `${postsDirectory}/**/*${MDX_FILE_EXTENSION}`
+
+  return globSync(pattern).map(fileName => parse(fileName))
+}
+
+function generateID(parsedPath: ParsedPath): string {
+  const splitDir = parsedPath.dir.split('/')
+  const length = splitDir.length
+
+  return `${splitDir[length - 1]}~${parsedPath.name}`
 }
 
 function getAllPostsPath() {
-  const allMdxFiles: ParsedPath[] = getMdxFiles();
+  const allMdxFiles: ParsedPath[] = getMdxFilesRecursively();
 
   return allMdxFiles.map((parsedFile: any) => {
     return {
       params: {
-        id: parsedFile.name
+        id: generateID(parsedFile)
       }
     }
   })
 }
 
-function getPostsMetaData() {
-  const allMdxFiles: ParsedPath[] = getMdxFiles();
+export function getPostsMetaData() {
+  const allMdxFiles: ParsedPath[] = getMdxFilesRecursively();
 
-  return allMdxFiles.map((parsedFile: ParsedPath) => {
-    const fullPath = path.join(postsDirectory, parsedFile.base);
+  return allMdxFiles.map((parsedPath: ParsedPath) => {
+    const fullPath = path.join(parsedPath.dir, parsedPath.base);
     // get MDX metadata and content
     const fileContents = fs.readFileSync(fullPath, 'utf8');
     // get metadata, content
     const {data, content} = matter(fileContents);
 
     let metadata = data;
-    metadata['id'] = parsedFile.name;
+    metadata['id'] = generateID(parsedPath)
     return metadata;
-  });
+  }).sort(metadata => metadata.id);
 }
 
-function getPostData(id: any) {
-  const fullPath = path.join(postsDirectory, id + mdx_file_extension);
+function getPostData(id: string) {
+  const fileData = id.split('~')
+  const dir = fileData[0]
+  const name = fileData[1]
+  const fullPath = path.join(postsDirectory, dir, `${name}${MDX_FILE_EXTENSION}`);
 
   // get MDX metadata and content
   const fileContents = fs.readFileSync(fullPath, 'utf8');
@@ -70,6 +88,5 @@ function getPostData(id: any) {
 
 export {
   getAllPostsPath,
-  getPostsMetaData,
   getPostData,
 }
