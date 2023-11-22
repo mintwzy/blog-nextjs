@@ -1,32 +1,11 @@
 import fs from 'fs'
-import {glob, globSync} from "glob";
+import {globSync} from "glob";
 import path, {ParsedPath, parse} from 'path'
 import matter from 'gray-matter'
-import metadata from "next/dist/server/typescript/rules/metadata";
 
 // current 'posts' directory
 const postsDirectory = path.join(process.cwd(), 'posts');
 const MDX_FILE_EXTENSION = '.mdx';
-
-/**
- * Get all files under posts directory
- *
- * TODO: support nexted folder with year-month, 2023-11.
- */
-function getAllFilesInDirectory(): ParsedPath[]{
-  const fileNames: string[] = fs.readdirSync(postsDirectory);
-
-  return fileNames.map(fileName => path.parse(fileName))
-}
-
-/**
- * Return only .mdx files
- */
-function getMdxFiles(): ParsedPath[]{
-  const allFiles: ParsedPath[] = getAllFilesInDirectory();
-
-  return allFiles.filter(parsedFile => parsedFile.ext === MDX_FILE_EXTENSION);
-}
 
 function getMdxFilesRecursively(): ParsedPath[] {
   const pattern = `${postsDirectory}/**/*${MDX_FILE_EXTENSION}`
