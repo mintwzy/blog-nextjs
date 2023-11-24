@@ -4,14 +4,8 @@ import { getPostsMetaData } from '@/lib/getPostsData';
 // @ts-ignore
 function Home({ postsData }) {
   return (
-    <div className = 'info-container'>
-      <p className = 'info-description'>
-        Hi atman, the saviour of Gotham City and I like to roam in nights to bash the bad guys.
-      </p>
-      <p className = 'info-description'>
-        But please dont call me as a source for <b>Corona Virus</b> and it could be the <b>Joker</b> who might have
-        started this mess.
-      </p>
+    <div className='info-container m-0-[5%]-0-[5%]'>
+      <h1 className="text-blue-700 text-3xl font-bold underline">Hello, Next.js!</h1>
       <hr/>
       {/*
         Render with posts metadata here
@@ -22,32 +16,12 @@ function Home({ postsData }) {
             <Link href={`${metadata.id}`} key={metadata.title} >
               {metadata.title}
             </Link>
-            <p className='post-description'>{metadata.date || metadata.tags}</p>
+            <p className='post-description text-red-400'>{metadata.date || metadata.tags}</p>
           </div>
         )
       })}
 
       <style jsx>{`
-        .info-container {
-          margin: 0 5% 0 5%;
-        }
-
-        img {
-          width: 20%;
-          max-width: 20%;
-          height: auto;
-          margin-left: 40%;
-        }
-
-        .info-description {
-          font-size: 20px;
-        }
-
-        .post-title {
-          font-size: 24px;
-          color: black;
-        }
-
         .post-description {
           font-size: 16px;
           color: #000000e6;

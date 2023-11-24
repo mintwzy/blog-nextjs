@@ -10,7 +10,7 @@ const MDX_FILE_EXTENSION = '.mdx';
 function getMdxFilesRecursively(): ParsedPath[] {
   const pattern = `${postsDirectory}/**/*${MDX_FILE_EXTENSION}`
 
-  return globSync(pattern).map(fileName => parse(fileName))
+  return globSync(pattern, {posix: true}).map(fileName => parse(fileName))
 }
 
 function generateID(parsedPath: ParsedPath): string {
